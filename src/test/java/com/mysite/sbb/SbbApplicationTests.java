@@ -2,6 +2,7 @@ package com.mysite.sbb;
 
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionRepository;
+import com.mysite.sbb.question.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SbbApplicationTests {
 
 	@Autowired
-	private QuestionRepository questionRepository;
+	private QuestionService questionService;
 
 	@Test
 	void testJpa(){
-		List<Question> all = this.questionRepository.findAll();
-		assertEquals(2, all.size());
-
-		Question q = all.get(0);
-		assertEquals("무엇인가요?", q.getSubject());
+		for(int idx=1; idx<=300; idx++){
+			String subject = String.format("[%3d]번째 테스트 게시글입니다.", idx);
+			String content = "테스트용 게시글입니다.";
+			this.questionService.createQuestion(subject,content);
+		}
 	}
 }
